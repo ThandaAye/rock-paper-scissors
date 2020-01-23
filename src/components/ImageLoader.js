@@ -15,7 +15,7 @@ export const rockButton = (action) => {
 export const paperButton = (action) => {
   return (
     <button className="imageButton" onClick={() => action('paper')}>
-    <img src={PaperIcon} className="Paper-logo" alt="paper" />
+      <img src={PaperIcon} className="Paper-logo" alt="paper" />
     </button>
   );
 }

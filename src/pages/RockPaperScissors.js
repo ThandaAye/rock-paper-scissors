@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {rockButton, paperButton, scissorsButton} from '../components/ImageLoader';
+import ScoreComponent from '../components/ScoreComponent'
 import '../RPS.css';
 
 export default class RockPaperScissors extends Component {
@@ -35,7 +36,6 @@ export default class RockPaperScissors extends Component {
   }
 
   render(){
-    const { youChose, computerChose, result, yourScore, computerScore } = this.state;
     return (
       <div className="rpsContainer">
         <h1>How to play</h1>
@@ -43,22 +43,7 @@ export default class RockPaperScissors extends Component {
           {rockButton((val) => this.onClick(val))}
           {paperButton((val) => this.onClick(val))}
           {scissorsButton((val) => this.onClick(val))}
-        <div className="resultContainer">
-          <p>You Chose: {youChose}</p>
-          <p>Computer Chose: {computerChose}</p>
-          <p>Result: {result}</p>
-        </div>
-        <div className="scoreContainer">
-          <p>Score</p>
-          <div className="scoreColumn">
-            <p>{yourScore}</p>
-            <p>You</p>
-          </div>
-          <div className="scoreColumn">
-            <p>{computerScore}</p>
-            <p>Computer</p>
-          </div>
-        </div>
+        <ScoreComponent score={this.state}/>
       </div>
     );
   }
