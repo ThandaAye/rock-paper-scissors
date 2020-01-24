@@ -13,5 +13,5 @@ Click on 'Start' button, computer will auto generate for both players<br>
 Click on 'Stop' button when you want to stop.<br>
 Result and Score will be shown.<br>
 
-Have fun playing Rock Paper Scissor game. :)
+Have fun playing Rock Paper Scissors game. :)
 
