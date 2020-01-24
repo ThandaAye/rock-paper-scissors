@@ -11,11 +11,12 @@ export default class ComVsComComponent extends Component {
   }
 
   render(){
-    const { randomGenerateImg, player1Chose, player2Chose } = this.props || {};
+    const { randomGenerateImg, player1Chose, player2Chose, type } = this.props || {};
+    console.log('aaaaaaa', type);
     return (
         <div>
-            <button onClick={() => randomGenerateImg('start')}>Start</button>
-            <button onClick={() => randomGenerateImg('stop')}>Stop</button>
+            <button disabled={type === 'start'} onClick={() => randomGenerateImg('start')}>Start</button>
+            <button disabled={type === 'stop'} onClick={() => randomGenerateImg('stop')}>Stop</button>
             <div className="randomImgContainer">
               {this.renderImage(player1Chose)}
               {this.renderImage(player2Chose)}
