@@ -1,5 +1,6 @@
-.imageButton{
-    padding: 15px;
+.logo{
+    width: 150px;
+    height: 150px;
     cursor: pointer;
 }
 
@@ -7,8 +8,14 @@
     text-align: center;
 }
 
+.randomImgContainer div{
+    display: inline-block;
+}
+
 body {
-    background-color: blueviolet;
+    background-image:url('images/background.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 120%;
     color: #ffffff;
 }
 
@@ -18,7 +25,7 @@ body {
 
 .scoreContainer {
     width: 380px;
-    height: 180px;
+    height: 150px;
     padding: 10px;
     border: 3px solid white;
     margin: auto;
@@ -30,4 +37,8 @@ body {
     clear: both;
     display: inline-block;
     overflow: hidden;
+}
+
+.radioContainer{
+    margin-bottom: 10px;
 }

@@ -1,48 +1,95 @@
 import React, { Component } from 'react';
-import {rockButton, paperButton, scissorsButton} from '../components/ImageLoader';
-import ScoreComponent from '../components/ScoreComponent'
+import ScoreComponent from '../components/ScoreComponent';
+import RadioComponent from '../components/RadioComponent';
+import YouVsComComponent from '../components/youVsComComponent';
+import ComVsComComponent from '../components/comVsComComponent';
 import '../RPS.css';
 
-export default class RockPaperScissors extends Component {
+const initialState = {
+  player1Chose: '-',
+  player2Chose: '-',
+  result: '-',
+  player1Score: 0,
+  player2Score: 0,
+  selectedOption: 'youVsCom',
+  choices: ['rock', 'paper', 'scissors']
+};
 
-  state = {
-    youChose: '-',
-    computerChose: '-',
-    result: '-',
-    yourScore: 0,
-    computerScore: 0
+export default class RockPaperScissors extends Component {
+  constructor() {
+    super();
+    this.state = initialState;
   }
 
-  calculateScore = (youChose, computerChose) => {
-    let {yourScore, computerScore, result} = this.state;
-    if(youChose === computerChose){
+  resetState = () => {
+    this.setState(initialState);
+   }
+
+  calculateScore = (player1Chose, player2Chose, type) => {
+    let {player1Score, player2Score, result, selectedOption} = this.state;
+    if(player1Chose === player2Chose){
       result = 'Tie';
-    }else if(youChose === 'rock' && computerChose === 'scissors' || 
-              youChose === 'scissors' && computerChose === 'paper' || 
-              youChose === 'paper' && computerChose === 'rock'){
-      result = 'You Win';
-      yourScore++;
+    }else if(player1Chose === 'rock' && player2Chose === 'scissors' || 
+            player1Chose === 'scissors' && player2Chose === 'paper' || 
+            player1Chose === 'paper' && player2Chose === 'rock'){
+      result = selectedOption === 'youVsCom' ? 'You Win' : 'Computer 1 Wins';
+      player1Score++;
     }else{
-      result = 'Computer Wins';
-      computerScore++;
+      result = selectedOption === 'youVsCom' ? 'Computer Wins' : 'Computer 2 Wins';
+      player2Score++;
     }
-    this.setState({youChose, computerChose, yourScore, computerScore, result})
+    this.setState({player1Chose, player2Chose, player1Score, player2Score, result})
   }
 
   onClick = (value) => {
-    var choices = ['rock', 'paper', 'scissors'];
-    var computerChose = choices[Math.floor(Math.random()*choices.length)];
+    const { choices } = this.state;
+    let computerChose = choices[Math.floor(Math.random()*choices.length)];
     this.calculateScore(value, computerChose);
   }
 
+  radioChange = (e) => {
+    this.resetState();
+    this.setState({
+      selectedOption: e.currentTarget.value
+    });
+  }
+
+  randomGenerateImg = (type) => {
+    if(type === 'start'){
+      this.startInterval = setInterval(() => {
+        const { choices, start } = this.state;
+        let player1Chose = choices[Math.floor(Math.random()*choices.length)];
+        let player2Chose = choices[Math.floor(Math.random()*choices.length)];
+        this.setState({player1Chose, player2Chose});
+      }, 200);
+    }else{
+      const { player1Chose, player2Chose } = this.state;
+      this.calculateScore(player1Chose, player2Chose);
+      clearInterval(this.startInterval);
+    }
+  }
+
   render(){
+    const {selectedOption, player1Chose, player2Chose} = this.state;
     return (
       <div className="rpsContainer">
         <h1>How to play</h1>
         <p>Rock beats Scissors | Scissors beats Paper | Paper beats Rock</p>
-          {rockButton((val) => this.onClick(val))}
-          {paperButton((val) => this.onClick(val))}
-          {scissorsButton((val) => this.onClick(val))}
+        <RadioComponent 
+          selectedOption={selectedOption} 
+          radioChange={this.radioChange}
+        />
+        {(selectedOption==='youVsCom') ? (
+          <YouVsComComponent 
+            onClick={(val) => this.onClick(val)}
+          />
+        ):(
+          <ComVsComComponent 
+            randomGenerateImg={(val) => this.randomGenerateImg(val)}
+            player1Chose={player1Chose}
+            player2Chose={player2Chose}
+          />
+        )}        
         <ScoreComponent score={this.state}/>
       </div>
     );
